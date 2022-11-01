@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        * {
+            font-size: 2em;
+            /*font-family: 'Courier';*/
+        }
+        .Label {
+            font-size: 0.4rem;
+            font-weight: bold;
+            padding: 0.5em;
+            display: flex;
+            flex-wrap: wrap;
+            height: 40px;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .Message {
+            font-size: 1rem;
+            color: #fff;
+            width: 100%;
+            background: #999;
+            padding: 0.4em 0.8em;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            margin-top: 0.6em;
+        }
+        .Buttons {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            height: 60px;
+            margin: 0.2rem 0 0.4rem 0;
+            align-content: start;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document ).ready(function() {
+            $("#calculator_gotoCache").val(0);
+            $("#calculator_doneCache").val(0);
+        });
+        $(function () {
+            $("#calculator_submitToCache").on('click', function() {
+                $("#calculator_gotoCache").val(1);
+            });
+            $("#calculator_submitDoneCache").on('click', function() {
+                $("#calculator_doneCache").val(1);
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="container h-100">
+        <h4 style="margin: 1em 0 0.5rem -0.5rem;">Калькулятор</h4>
+        <div class="Calculator row h-100 row align-items-center">
+            <div class="Screen col-l">
+                <div class="Label">
+                    <span>Аргумент 1</span>
+                    <span>Операция</span>
+                    <span>Аргумент 2</span>
+                    <div class="input-group-prepend">
+                       &nbsp;
+                    </div>
+                </div>
+                {{ form_start(form) }}
+                <div class="input-group elements">
+                    {{ form_widget(form.numberOne) }}
+                    {{ form_widget(form.operation) }}
+                    {{ form_widget(form.numberTwo) }}
+                    <div class="input-group-prepend">
+                        {{ form_widget(form.submit) }}
+                    </div>
+                </div>
+                <div class="Buttons">
+                    {{ form_widget(form.gotoCache) }}
+                    {{ form_widget(form.doneCache) }}
+                    <div style="display: flex;">
+                        {{ form_widget(form.submitToCache) }}
+                    </div>
+                    <div style="display: flex;margin-left: 0.4rem;">
+                        {{ form_widget(form.submitDoneCache) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+                <div class="Message">
+                   {{ result | raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
